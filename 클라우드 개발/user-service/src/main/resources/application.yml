@@ -38,7 +38,7 @@ management:
   endpoint:
     web:
       exposure:
-        include: refresh, health, beans
+        include: refresh, health, beans  # refresh는 post로 보내야 하는데 보내면 빌드안해도 외부 yml를 가져올수있다.
 
 greeting:
   message: Welcome to the Simple E-commerce.

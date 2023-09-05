@@ -18,14 +18,25 @@ spring:
           uri: lb://ORDER-SERVICE
           predicates:
             - Path=/order-service/**
-        - id: user-service
+
+        - id: catalog-service
           uri: lb://CATALOG-SERVICE
           predicates:
             - Path=/catalog-service/**
+
         - id: user-service
           uri: lb://USER-SERVICE
           predicates:
             - Path=/user-service/**
+
+        - id: user-service
+          uri: lb://USER-SERVICE
+          predicates:
+            - Path=/user-service/actuator/**
+            - Method=GET,POST
+          filters:
+            - RewritePath=/user-service/(?<segment>.*), /$\{segment}
+
         - id: first-service
           uri: http://localhost:8081/
           predicates:
@@ -33,6 +44,7 @@ spring:
           filters:
             - AddRequestHeader=first-request, first-request-header2
             - AddResponseHeader=first-response, first-response-header2
+
         - id: second-service
           uri: http://localhost:8082/
           predicates:
@@ -40,3 +52,8 @@ spring:
           filters:
             - AddRequestHeader=second-request, second-request-header2
             - AddResponseHeader=second-response, second-response-header2
+management:
+  endpoint:
+    web:
+      exposure:
+        include: refresh, health, beans, httptrace   # refresh는 post로 보내야 하는데 보내면 빌드안해도 외부 yml를 가져올수있다.
