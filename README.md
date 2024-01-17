@@ -12,6 +12,9 @@
   
 ### 클라우드 네이티브 애플리케이션 (마이크로서비스, CI/CD, DevOps, Container)
 
+### SOA 와 MSA의 차이
+SOA - 공통 자원을 재사용하여 비용 절감
+MSA - 서비스 간의 결합도 낮추어 변화에 능동적으로 대응
 
 ### MSA
 ![image](https://github.com/jihaneol/Spring_Cloud/assets/104291422/c6ad42cf-f124-460a-91ca-bed534e1f19f)
@@ -29,8 +32,6 @@
 5. Automation - jenkins, gradle, maven, npm  CI/CD
 6. Backing Service - kafka, redis, ec2, MQ  저장소
 7. Telemetry - 현재상태 리소스 모니터링
-
-## Spring Cloud
 
 ### Spring Cloud Netflix Eureka
 
