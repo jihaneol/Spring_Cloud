@@ -7,10 +7,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/first-service/")
+@RequestMapping("/first-service")
 @Slf4j
 public class FirstServiceController {
-    @GetMapping("welcome")
+    @GetMapping("/welcome")
     public String welcome() {
         return "welcome to the First service";
     }
@@ -19,5 +19,10 @@ public class FirstServiceController {
     public String message(@RequestHeader("first-request") String header) {
         log.info(header);
         return  "first-message";
+    }
+
+    @GetMapping("/check")
+    public String check() {
+        return  "hi, there. this is a message from first service.";
     }
 }
