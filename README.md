@@ -133,3 +133,7 @@ config server 변경시 다시 갖고 오는 방법
 - bootstrap.yml 관련 내용
     
     Spring Boot 2.4 이후부터는 bootstrap.yml(bootstrap.properties)에 의한 context 초기화 작업이 지원되지 않습니다. bootstrap.yml파일을 사용하기 위해서는 spring.cloud.bootstrap.enabled=true, 또는 말씀하신 내용 처럼 spring-cloud-starter-bootstrap을 사용하시고, boostrap.yml 파일을 사용하지 않기 위해서는 spring.cloud.import=optionall:configserver:http://localhost:8888 과 같이 설정해서 사용하실 수 있습니다.
+
+### API
+![image](https://github.com/jihaneol/Spring_Cloud/assets/104291422/ea491fa1-f75c-433c-abb0-75efae9876dd)
+
