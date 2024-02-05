@@ -23,28 +23,22 @@ public class UserController {
     private final ModelMapper modelMapper;
 
     @GetMapping("/health_check")
-    public String status() {
-
-        return String.format("It's Working in User Service "
-                + ", port(local.server.port)=" + env.getProperty("local.server.port")
-                + ", token secret =" + env.getProperty("token.secret"));
-
-
-
+    public String status(){
+        return "It's Working in User Service";
     }
-
     @GetMapping("/welcome")
     public String welcome() {
         return greeting.getMessage();
     }
 
+    // 회원 가입
     @PostMapping("/users")
     public ResponseEntity<ResponseUser> createUser(@RequestBody RequestUser user) {
         UserDto userDto = modelMapper.map(user, UserDto.class);
         UserDto user1 = userService.createUser(userDto);
 
 
-        ResponseUser responseUser = new ResponseUser(userDto.getEmail(), userDto.getName(), userDto.getUserId());
+        ResponseUser responseUser = modelMapper.map(user1, ResponseUser.class);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(responseUser);
     }

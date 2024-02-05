@@ -9,6 +9,7 @@ import javax.persistence.*;
 @Table(name = "users")
 @Builder
 @AllArgsConstructor
+@NoArgsConstructor
 public class UserEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,5 +22,7 @@ public class UserEntity {
     private String userId;
     @Column(nullable = false, unique = true)
     private String encryptedPwd;
+
+
 
 }

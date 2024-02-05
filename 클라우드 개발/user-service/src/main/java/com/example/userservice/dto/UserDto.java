@@ -1,5 +1,6 @@
 package com.example.userservice.dto;
 
+import lombok.Builder;
 import lombok.Data;
 
 import java.util.Date;

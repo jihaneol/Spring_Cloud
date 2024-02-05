@@ -8,7 +8,6 @@ import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.MatchingStrategies;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.ui.Model;
 
 import java.util.UUID;
 
@@ -22,16 +21,11 @@ public class UserServiceImp implements UserService {
     @Override
     public UserDto createUser(UserDto userDto) {
         userDto.setUserId(UUID.randomUUID().toString());
+        userDto.setEncryptedPwd(passwordEncoder.encode(userDto.getPwd()));
+        ModelMapper mapper = new ModelMapper();
+        mapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
+        UserEntity userEntity = mapper.map(userDto, UserEntity.class);
 
-//        ModelMapper mapper = new ModelMapper();
-//        mapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
-//        UserEntity userEntity = mapper.map(userDto, UserEntity.class);
-        UserEntity userEntity = UserEntity.builder()
-                .email(userDto.getEmail())
-                .userId(userDto.getUserId())
-                .name(userDto.getName())
-                .encryptedPwd(passwordEncoder.encode(userDto.getPwd()))
-                .build();
         userRepository.save(userEntity);
 
         return userDto;
