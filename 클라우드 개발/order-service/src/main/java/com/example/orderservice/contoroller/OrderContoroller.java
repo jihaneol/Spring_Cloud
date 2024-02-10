@@ -6,6 +6,7 @@ import com.example.orderservice.service.OrderService;
 import com.example.orderservice.vo.RequestOrder;
 import com.example.orderservice.vo.ResponseOrder;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.MatchingStrategies;
 import org.springframework.core.env.Environment;
@@ -19,6 +20,7 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/order-service")
+@Slf4j
 public class OrderContoroller {
 
     private final Environment env;
@@ -36,7 +38,7 @@ public class OrderContoroller {
                                                      @RequestBody RequestOrder orderDetails) {
         ModelMapper mapper = new ModelMapper();
         mapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
-
+        log.info(orderDetails.toString());
         OrderDto orderDto = mapper.map(orderDetails, OrderDto.class);
         orderDto.setUserId(userId);
         OrderDto createOrder = orderService.createOrder(orderDto);

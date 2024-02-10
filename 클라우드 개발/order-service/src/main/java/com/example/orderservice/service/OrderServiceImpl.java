@@ -4,6 +4,7 @@ import com.example.orderservice.dto.OrderDto;
 import com.example.orderservice.entity.OrderEntity;
 import com.example.orderservice.entity.OrderRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.MatchingStrategies;
 import org.springframework.stereotype.Service;
@@ -12,8 +13,9 @@ import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class OrderServiceImpl implements OrderService{
-    OrderRepository orderRepository;
+    private final OrderRepository orderRepository;
     @Override
     public OrderDto createOrder(OrderDto orderDetails) {
         orderDetails.setOrderId(UUID.randomUUID().toString());
@@ -22,9 +24,8 @@ public class OrderServiceImpl implements OrderService{
         ModelMapper mapper = new ModelMapper();
         mapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
         OrderEntity orderEntity = mapper.map(orderDetails, OrderEntity.class);
-
+        log.info(orderDetails.toString());
         orderRepository.save(orderEntity);
-
 
         return orderDetails;
     }

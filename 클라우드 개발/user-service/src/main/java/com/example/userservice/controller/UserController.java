@@ -12,6 +12,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/user-service")
 @RequiredArgsConstructor
@@ -23,9 +25,12 @@ public class UserController {
     private final ModelMapper modelMapper;
 
     @GetMapping("/health_check")
-    public String status(){
-        return "It's Working in User Service";
+    public String status() {
+
+        return String.format("It's Working in User Service on PORT %s",
+                env.getProperty("local.server.port"));
     }
+
     @GetMapping("/welcome")
     public String welcome() {
         return greeting.getMessage();
@@ -42,6 +47,27 @@ public class UserController {
 
         return ResponseEntity.status(HttpStatus.CREATED).body(responseUser);
     }
+    // 회원 리스트
+    @GetMapping("/users")
+    public ResponseEntity<List<ResponseUser>> getUsers() {
+
+        return ResponseEntity.status(HttpStatus.OK).body(userService.getUserByAll());
+    }
+    // 특정 회원 정보
+    @GetMapping("/users/{userId}")
+    public ResponseEntity<ResponseUser> getUser(@PathVariable("userId") String userId) {
+
+        return ResponseEntity.status(HttpStatus.OK).body(userService.getUserById(userId));
+    }
+
+    // 회원 정보 삭제
+
+    // 회원 정보 수정
+
+    // 회원 로그인
+
+
+
 
 
 }
