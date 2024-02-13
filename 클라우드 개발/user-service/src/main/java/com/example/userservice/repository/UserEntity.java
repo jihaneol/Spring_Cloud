@@ -1,6 +1,8 @@
 package com.example.userservice.repository;
 
+import com.example.userservice.vo.RequestUser;
 import lombok.*;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import javax.persistence.*;
 
@@ -25,5 +27,8 @@ public class UserEntity {
     private String encryptedPwd;
 
 
-
+    public void update(RequestUser user) {
+        this.email = user.getEmail();
+        this.name = user.getName();
+    }
 }

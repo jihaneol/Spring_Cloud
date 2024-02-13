@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/user-service")
+@RequestMapping("")
 @RequiredArgsConstructor
 public class UserController {
 
@@ -61,11 +61,22 @@ public class UserController {
     }
 
     // 회원 정보 삭제
+    @DeleteMapping("/users/{userId}")
+    public ResponseEntity<ResponseUser> deleteUser(@PathVariable("userId") String userId) {
+        if(userService.deleteUser(userId)){
+            return ResponseEntity.status(HttpStatus.OK).build();
+        }else{
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
 
+    }
     // 회원 정보 수정
+    @PutMapping("/users/{userId}")
+    public ResponseEntity<ResponseUser> updateUser(@PathVariable("userId") String userId,
+                                                   @RequestBody RequestUser user) {
 
-    // 회원 로그인
-
+        return ResponseEntity.status(HttpStatus.OK).body(userService.updateUser(userId, user));
+    }
 
 
 

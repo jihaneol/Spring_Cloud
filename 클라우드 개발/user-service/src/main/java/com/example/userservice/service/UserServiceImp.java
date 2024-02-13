@@ -3,10 +3,13 @@ package com.example.userservice.service;
 import com.example.userservice.dto.UserDto;
 import com.example.userservice.repository.UserEntity;
 import com.example.userservice.repository.UserRepository;
+import com.example.userservice.vo.RequestUser;
 import com.example.userservice.vo.ResponseUser;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -14,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -25,6 +29,16 @@ public class UserServiceImp implements UserService {
     private final UserRepository userRepository;
     private final BCryptPasswordEncoder passwordEncoder;
     private final ModelMapper modelMapper;
+
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+
+        UserEntity userEntity = userRepository.findByEmail(username).orElseThrow(() -> new UsernameNotFoundException(username));
+
+        return new User(userEntity.getEmail(), userEntity.getEncryptedPwd(),
+                true, true, true, true,
+                new ArrayList<>());
+    }
 
 
     @Override
@@ -57,8 +71,25 @@ public class UserServiceImp implements UserService {
 
         List<ResponseUser> responseUserList = new ArrayList<>();
 
-        all.forEach(v-> responseUserList.add(modelMapper.map(v, ResponseUser.class)));
+        all.forEach(v -> responseUserList.add(modelMapper.map(v, ResponseUser.class)));
 
         return responseUserList;
     }
+
+    @Override
+    public boolean deleteUser(String userId) {
+
+        return userRepository.deleteByUserId(userId);
+    }
+
+    @Override
+    public ResponseUser updateUser(String userId, RequestUser user) {
+        UserEntity userEntity = userRepository.findByUserId(userId).orElseThrow(() -> new UsernameNotFoundException(userId));
+
+        userEntity.update(user);
+
+        return null;
+    }
+
+
 }
