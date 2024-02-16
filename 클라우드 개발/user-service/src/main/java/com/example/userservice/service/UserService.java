@@ -5,6 +5,7 @@ import com.example.userservice.vo.RequestUser;
 import com.example.userservice.vo.ResponseUser;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
+import javax.persistence.criteria.CriteriaBuilder;
 import java.util.List;
 
 
@@ -16,7 +17,9 @@ public interface UserService extends UserDetailsService {
     List<ResponseUser> getUserByAll();
 
 
-    boolean deleteUser(String userId);
+    Integer deleteUser(String userId);
 
     ResponseUser updateUser(String userId, RequestUser user);
+
+    UserDto getUserDetailsByEmail(String username);
 }

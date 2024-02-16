@@ -4,11 +4,6 @@ server:
 spring:
   application:
     name: user-service
-  cloud:
-    config:
-      uri: http://localhost:8000
-      name: ecomerce
-
 
   datasource:
     url: jdbc:mysql://127.0.0.1:3306/cloud?characterEncoding=UTF-8&serverTimezone=UTC
@@ -34,10 +29,15 @@ eureka:
       defaultZone: http://localhost:8761/eureka
 
 management:
-  endpoint:
+  endpoints:
     web:
       exposure:
         include: refresh, health, beans  # refresh는 post로 보내야 하는데 보내면 빌드안해도 외부 yml를 가져올수있다.
 
 greeting:
   message: Welcome to the Simple E-commerce.
+
+#
+#token:
+#  expiration_time: 86400000
+#  secret: user_token

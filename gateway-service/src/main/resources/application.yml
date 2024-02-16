@@ -51,15 +51,28 @@ spring:
             - Path=/user-service/users
             - Method=POST
           filters:
+            - RemoveRequestHeader=Cookie
             - RewritePath=/user-service/(?<segment>.*), /$\{segment}
 
         - id: user-service
           uri: lb://USER-SERVICE
           predicates:
             - Path=/user-service/**
-            - Method=GET
+            - Method=GET,DELETE,PUT
           filters:
+            - RemoveRequestHeader=Cookie
             - RewritePath=/user-service/(?<segment>.*), /$\{segment}
+            - AuthorizationHeaderFilter
+
+        - id: user-service
+          uri: lb://USER-SERVICE
+          predicates:
+            - Path=/user-service/actuator/**
+            - Method=GET, POST
+          filters:
+            - RemoveRequestHeader=Cookie
+            - RewritePath=/user-service/(?<segment>.*), /$\{segment}
+
 
         - id: first-service
           uri: lb://MY-FIRST-SERVICE
@@ -83,8 +96,12 @@ spring:
                 baseMessage: Logging ~
                 preLogger: true
                 postLogger: true
+
+
+
 management:
   endpoint:
     web:
       exposure:
         include: refresh, health, beans, httptrace   # refresh는 post로 보내야 하는데 보내면 빌드안해도 외부 yml를 가져올수있다.
+

@@ -7,6 +7,7 @@ import org.modelmapper.convention.MatchingStrategies;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.ObjectPostProcessor;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -32,10 +33,11 @@ public class webSecurity {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.csrf().disable();
+        http.authorizeRequests().antMatchers("/actuator/**").permitAll();
         http.authorizeRequests()
-                .antMatchers("/**").hasIpAddress("192.168.219.115")
+                .anyRequest().permitAll()
                 .and()
-                .addFilter(getAuthenticationFilter(http));
+                .addFilter(getAuthenticationFilter());
 
 //                .hasIpAddress("")
 
@@ -43,8 +45,8 @@ public class webSecurity {
         return http.build();
     }
 
-    private AuthenticationFilter getAuthenticationFilter(HttpSecurity http) throws Exception {
-        AuthenticationFilter authenticationFilter = new AuthenticationFilter();
+    private AuthenticationFilter getAuthenticationFilter() throws Exception {
+        AuthenticationFilter authenticationFilter = new AuthenticationFilter(userService, env);
         AuthenticationManagerBuilder builder = new AuthenticationManagerBuilder(objectPostProcessor);
         authenticationFilter.setAuthenticationManager(authenticationManager(builder));
         return authenticationFilter;
@@ -55,6 +57,7 @@ public class webSecurity {
         auth.userDetailsService(userService).passwordEncoder(bCryptPasswordEncoder);
         return auth.build();
     }
+
     @Bean
     public static ModelMapper modelMapper() {
 
@@ -63,9 +66,6 @@ public class webSecurity {
 
         return modelMapper;
     }
-
-
-
 
 
 }

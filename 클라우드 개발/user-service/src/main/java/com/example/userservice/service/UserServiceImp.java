@@ -76,19 +76,29 @@ public class UserServiceImp implements UserService {
         return responseUserList;
     }
 
+    @Transactional
     @Override
-    public boolean deleteUser(String userId) {
+    public Integer deleteUser(String userId) {
 
         return userRepository.deleteByUserId(userId);
     }
-
+    @Transactional
     @Override
     public ResponseUser updateUser(String userId, RequestUser user) {
         UserEntity userEntity = userRepository.findByUserId(userId).orElseThrow(() -> new UsernameNotFoundException(userId));
 
         userEntity.update(user);
 
-        return null;
+
+        return modelMapper.map(userEntity,ResponseUser.class);
+    }
+
+    @Override
+    public UserDto getUserDetailsByEmail(String email) {
+        UserEntity userEntity = userRepository.findByEmail(email).orElseThrow(() -> new UsernameNotFoundException(email));
+
+        UserDto userDto = modelMapper.map(userEntity, UserDto.class);
+        return userDto;
     }
 
 

@@ -4,11 +4,15 @@ server:
 spring:
   application:
     name: config-service
+#  profiles:
+#    active: native
   cloud:
     config:
       server:
+        native:
+          search-locations: C:/Users/user/Desktop/springcloud/native-local-repo
         git:
-          uri: file:///Users/ASUSJI/Desktop/practice/git-local-repo
-          default-label: master
+#          uri: C:/Users/user/Desktop/springcloud/git-local-repo
+          uri: https://github.com/jihaneol/Spring-Cloud-Config.git
 
 
