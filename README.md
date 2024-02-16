@@ -137,3 +137,32 @@ config server 변경시 다시 갖고 오는 방법
 ### API
 ![image](https://github.com/jihaneol/Spring_Cloud/assets/104291422/ea491fa1-f75c-433c-abb0-75efae9876dd)
 
+# 5장
+
+![Untitled (1)](https://github.com/jihaneol/Spring_Cloud/assets/104291422/dcadf32f-381f-4cd2-873a-6e8e8e77bde6)
+
+카탈로그 서비스
+![Untitled (1)](https://github.com/jihaneol/Spring_Cloud/assets/104291422/96854e3a-9633-4d5b-9f90-8df2061a74aa)
+
+오더 서비스
+![Untitled (2)](https://github.com/jihaneol/Spring_Cloud/assets/104291422/19c07580-661a-4c08-aeb1-b8e609a0a5d0)
+
+# 6장
+
+spring security 내용
+
+# 7장 spring cloud configure
+
+![Untitled (3)](https://github.com/jihaneol/Spring_Cloud/assets/104291422/c53ad361-220c-460e-9488-a1021aaf3a3e)
+
+configuration 값 변경 하는 법
+
+1. 서버 재기동
+2. Actuator refresh
+3. Spring cloud bus
+
+yml 우선 순위
+
+application.yml → application-name.yml → apllication-name-<profile>.yml
+
+# 8장 클라우드 버스
