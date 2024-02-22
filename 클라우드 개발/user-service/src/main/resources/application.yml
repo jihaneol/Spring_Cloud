@@ -5,10 +5,16 @@ spring:
   application:
     name: user-service
 
-  datasource:
-    url: jdbc:mysql://127.0.0.1:3306/cloud?characterEncoding=UTF-8&serverTimezone=UTC
-    username: root
-    password: 1234
+  rabbitmq:
+    host: 127.0.0.1
+    port: 5672
+    username: guest
+    password: guest
+
+#  datasource:
+#    url: jdbc:mysql://127.0.0.1:3306/cloud?characterEncoding=UTF-8&serverTimezone=UTC
+#    username: 비밀
+#    password: 비밀
 
 jpa:
   hibernate:
@@ -32,7 +38,7 @@ management:
   endpoints:
     web:
       exposure:
-        include: refresh, health, beans  # refresh는 post로 보내야 하는데 보내면 빌드안해도 외부 yml를 가져올수있다.
+        include: refresh, health, beans, busrefresh  # refresh는 post로 보내야 하는데 보내면 빌드안해도 외부 yml를 가져올수있다.
 
 greeting:
   message: Welcome to the Simple E-commerce.

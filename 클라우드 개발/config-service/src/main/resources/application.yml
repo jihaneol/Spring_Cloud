@@ -4,8 +4,13 @@ server:
 spring:
   application:
     name: config-service
-#  profiles:
-#    active: native
+  rabbitmq:
+    host: 127.0.0.1
+    port: 5672
+    username: guest
+    password: guest
+  profiles:
+    active: native
   cloud:
     config:
       server:
@@ -16,3 +21,8 @@ spring:
           uri: https://github.com/jihaneol/Spring-Cloud-Config.git
 
 
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health, busrefresh  # refresh는 post로 보내야 하는데 보내면 빌드안해도 외부 yml를 가져올수있다.

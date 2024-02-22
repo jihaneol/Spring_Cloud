@@ -11,6 +11,12 @@ eureka:
 spring:
   application:
     name: apigateway-service
+  rabbitmq:
+    host: 127.0.0.1
+    port: 5672
+    username: guest
+    password: guest
+
   cloud:
     gateway:
       default-filters:
@@ -103,5 +109,5 @@ management:
   endpoint:
     web:
       exposure:
-        include: refresh, health, beans, httptrace   # refresh는 post로 보내야 하는데 보내면 빌드안해도 외부 yml를 가져올수있다.
+        include: refresh, health, beans, httptrace, busrefresh   # refresh는 post로 보내야 하는데 보내면 빌드안해도 외부 yml를 가져올수있다.
 
