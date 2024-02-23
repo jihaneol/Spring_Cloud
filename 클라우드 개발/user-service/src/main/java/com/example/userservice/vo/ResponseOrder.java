@@ -2,7 +2,7 @@ package com.example.userservice.vo;
 
 import lombok.Data;
 
-import java.time.LocalDateTime;
+import java.util.Date;
 
 @Data
 public class ResponseOrder {
@@ -10,7 +10,7 @@ public class ResponseOrder {
     private Integer qty;
     private Integer unitPrice;
     private Integer totalPrice;
-    private LocalDateTime createAt;
+    private Date createAt;
 
     private String orderId;
 }

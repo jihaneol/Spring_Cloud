@@ -38,7 +38,6 @@ public class OrderContoroller {
                                                      @RequestBody RequestOrder orderDetails) {
         ModelMapper mapper = new ModelMapper();
         mapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
-        log.info(orderDetails.toString());
         OrderDto orderDto = mapper.map(orderDetails, OrderDto.class);
         orderDto.setUserId(userId);
         OrderDto createOrder = orderService.createOrder(orderDto);

@@ -1,9 +1,11 @@
 package com.example.userservice.service;
 
+import com.example.userservice.client.OrderServiceClient;
 import com.example.userservice.dto.UserDto;
 import com.example.userservice.repository.UserEntity;
 import com.example.userservice.repository.UserRepository;
 import com.example.userservice.vo.RequestUser;
+import com.example.userservice.vo.ResponseOrder;
 import com.example.userservice.vo.ResponseUser;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -17,7 +19,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -29,6 +30,9 @@ public class UserServiceImp implements UserService {
     private final UserRepository userRepository;
     private final BCryptPasswordEncoder passwordEncoder;
     private final ModelMapper modelMapper;
+    private final OrderServiceClient orderServiceClient;
+//    private final Environment env;
+//    private final RestTemplate restTemplate;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -46,9 +50,9 @@ public class UserServiceImp implements UserService {
     public UserDto createUser(UserDto userDto) {
         userDto.setUserId(UUID.randomUUID().toString());
         userDto.setEncryptedPwd(passwordEncoder.encode(userDto.getPwd()));
-        log.info(userDto.toString());
         UserEntity userEntity = modelMapper.map(userDto, UserEntity.class);
-        userRepository.save(userEntity);
+        UserEntity save = userRepository.save(userEntity);
+        log.info(save.toString());
 
         return userDto;
     }
@@ -59,8 +63,16 @@ public class UserServiceImp implements UserService {
         UserDto userDto = userRepository.findByUserId(userId)
                 .map(userEntity -> modelMapper.map(userEntity, UserDto.class))
                 .orElseThrow(() -> new UsernameNotFoundException("해당 유저가 없습니다."));
+        // 오더 서비스에서 갖고온 정보
+//        String orderUrl = String.format(Objects.requireNonNull(env.getProperty("order_service.url")), userId);
+//        ResponseEntity<List<ResponseOrder>> orderListResponse =
+//                restTemplate.exchange(orderUrl, HttpMethod.GET, null,
+//                new ParameterizedTypeReference<List<ResponseOrder>>() {
+//                });
+        // using a feign client
+        List<ResponseOrder> orderList = orderServiceClient.getOrders(userId);
 
-        userDto.setOrders(new ArrayList<>());
+        userDto.setOrders(orderList);
 
         return modelMapper.map(userDto, ResponseUser.class);
     }
@@ -82,6 +94,7 @@ public class UserServiceImp implements UserService {
 
         return userRepository.deleteByUserId(userId);
     }
+
     @Transactional
     @Override
     public ResponseUser updateUser(String userId, RequestUser user) {
@@ -90,7 +103,7 @@ public class UserServiceImp implements UserService {
         userEntity.update(user);
 
 
-        return modelMapper.map(userEntity,ResponseUser.class);
+        return modelMapper.map(userEntity, ResponseUser.class);
     }
 
     @Override

@@ -25,8 +25,9 @@ public class OrderServiceImpl implements OrderService{
         mapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
         OrderEntity orderEntity = mapper.map(orderDetails, OrderEntity.class);
         log.info(orderDetails.toString());
-        orderRepository.save(orderEntity);
 
+        orderRepository.save(orderEntity);
+        orderDetails.setCreateAt(orderEntity.getCreateAt());
         return orderDetails;
     }
 

@@ -24,6 +24,7 @@ public class GlobalFilter extends AbstractGatewayFilterFactory<GlobalFilter.Conf
         // Pre Filter
         return ((exchange, chain) -> {
             ServerHttpRequest request = exchange.getRequest();
+
             ServerHttpResponse response = exchange.getResponse();
 
 
